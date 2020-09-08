@@ -97,7 +97,8 @@ mkswap $SWAP
 mkdir -p /mnt
 mount $ROOT /mnt
 mkdir -p /mnt/boot
-mount $BOOT /mnt/boot/
+mkdir -p /mnt/boot/efi
+mount $BOOT /mnt/boot/efi
 swapon $SWAP
 
 echo "--------------------------------------"
@@ -161,8 +162,8 @@ echo "-- Bootloader Systemd Installation  --"
 echo "--------------------------------------"
 
 #setting up systemd bootloader entry
-mkdir /mnt/boot/efi
-artools-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARTIX
+mkdir /mnt/boot/EFI
+artools-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=ARTIX
 artools-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 #setting up makepkg flags
