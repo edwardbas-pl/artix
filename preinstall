@@ -117,6 +117,7 @@ else
 	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim  runit elogind-runit connman-runit connman-gtk --noconfirm --needed
 fi
 
+basestrap /mnt grub efibootmgr os-prober
 ln -s /mnt/etc/runit/sv/connmand /mnt/etc/runit/runsvdir/default	
 
 fstabgen -U /mnt >> /mnt/etc/fstab
@@ -160,7 +161,6 @@ echo "-- Bootloader Systemd Installation  --"
 echo "--------------------------------------"
 
 #setting up systemd bootloader entry
-basestrap /mnt efibootmgr
 artools-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ARTIX
 artools-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
