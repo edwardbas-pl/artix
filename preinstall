@@ -181,7 +181,7 @@ sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T '$nc' -z -)/g' /mnt/etc/m
 
 
 echo "Base Networking"
-basestrap /mnt dhcpcd git neofetch networkmanager
+basestrap /mnt dhcpcd-runit git neofetch networkmanager
 # artools-chroot /mnt systemctl enable NetworkManager
 ln -s /mnt/etc/runit/sv/dhcpcd /run/runit/service
 
