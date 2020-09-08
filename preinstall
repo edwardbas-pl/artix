@@ -161,7 +161,8 @@ echo "-- Bootloader Systemd Installation  --"
 echo "--------------------------------------"
 
 #setting up systemd bootloader entry
-artools-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ARTIX
+mkdir /mnt/boot/efi
+artools-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARTIX
 artools-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 #setting up makepkg flags
