@@ -99,7 +99,7 @@ mount $ROOT /mnt
 mkdir -p /mnt/boot
 mkdir -p /mnt/boot/efi
 mount $BOOT /mnt/boot/efi
-swapon $SWAP
+#swapon $SWAP
 
 echo "--------------------------------------"
 echo "-- Arch Install on Main Drive       --"
