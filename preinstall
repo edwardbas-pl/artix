@@ -108,13 +108,13 @@ CPU=$( grep -m 1 vendor_id /proc/cpuinfo  | awk '{print $3} ') # This line check
 
 if [ $CPU = GenuineIntel ]
 then
-	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim intel-ucode --noconfirm --needed
+	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim irunit elogind-runit connman-runit connman-gtk intel-ucode --noconfirm --needed
 elif [ $CPU = AuthenticAMD ]
 then
-	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim amd-ucode --noconfirm --needed
+	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim runit elogind-runit connman-runit connman-gtk amd-ucode --noconfirm --needed
 else
 	echo "Can't recognize CPU vendor"
-	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim --noconfirm --needed
+	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim  runit elogind-runit connman-runit connman-gtk --noconfirm --needed
 fi
 	
 
