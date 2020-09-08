@@ -116,7 +116,8 @@ else
 	echo "Can't recognize CPU vendor"
 	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim  runit elogind-runit connman-runit connman-gtk --noconfirm --needed
 fi
-	
+
+ln -s /mnt/etc/runit/sv/connmand /mnt/etc/runit/runsvdir/default	
 
 fstabgen -U /mnt >> /mnt/etc/fstab
 
