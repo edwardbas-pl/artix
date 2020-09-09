@@ -103,21 +103,21 @@ echo "--------------------------------------"
 echo "-- Arch Install on Main Drive       --"
 echo "--------------------------------------"
 
+basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim runit elogind-runit connman-runit connman-gtk grub efibootmgr os-prober --noconfirm --needed
+
 CPU=$( grep -m 1 vendor_id /proc/cpuinfo  | awk '{print $3} ') # This line checks CPU vendor. It will be usefull when we would want to install microcode for our cpu
 
 if [ $CPU = GenuineIntel ]
 then
-	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim irunit elogind-runit connman-runit connman-gtk intel-ucode --noconfirm --needed
+	basestrap /mnt intel-ucode --noconfirm --needed
 elif [ $CPU = AuthenticAMD ]
 then
-	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim runit elogind-runit connman-runit connman-gtk amd-ucode --noconfirm --needed
+	basestrap /mnt amd-ucode --noconfirm --needed
 else
 	echo "Can't recognize CPU vendor"
-	basestrap /mnt base base-devel linux-zen linux-firmware linux-zen-headers vim  runit elogind-runit connman-runit connman-gtk --noconfirm --needed
 fi
 
-basestrap /mnt grub efibootmgr os-prober
-ln -s /mnt/etc/runit/sv/connmand /mnt/etc/runit/runsvdir/default	
+basestrap /mnt ln -s /etc/runit/sv/connmand /etc/runit/runsvdir/default	
 
 fstabgen -U /mnt >> /mnt/etc/fstab
 
@@ -161,7 +161,6 @@ echo "--------------------------------------"
 
 #setting up systemd bootloader entry
 mkdir /mnt/boot/efi
-basestrap /mnt grub efibootmgr os-prober
 artools-chroot /mnt grub-install --target=x86_64-efi --bootloader-id=ARTIX --efi-directory=/boot/efi 
 artools-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
