@@ -6,7 +6,6 @@
 #   /_/ \_\_| \__|_||_|_|  |_\__,_|\__|_\__|
 #  Arch Linux Post Install Setup and Config
 #-------------------------------------------------------------------------
-su
 echo "Please enter hostname:"
 read hostname
 echo "Please enter username:"
@@ -27,7 +26,6 @@ printf "password="$password"\n" > "install.conf"
 echo "-------------------------------------------------"
 echo "    Setting up mirrors for optimal download      "
 echo "-------------------------------------------------"
-timedatectl set-ntp true
 
 echo -e "\nInstalling prereqs...\n$HR"
 pacman -S --noconfirm gptfdisk btrfs-progs
@@ -97,8 +95,8 @@ mkswap $SWAP
 mkdir -p /mnt
 mount $ROOT /mnt
 mkdir -p /mnt/boot
-mkdir -p /mnt/boot/efi
-mount $BOOT /mnt/boot/efi
+#mkdir -p /mnt/bootefi
+mount $BOOT /mnt/boot/
 #swapon $SWAP
 
 echo "--------------------------------------"
@@ -130,10 +128,10 @@ echo "-- Preparing users locales and other--"
 echo "--------------------------------------"
 
 #Setting up User
-artools-chroot /mnt useradd -mU -G wheel,uucp,video,audio,storage,games,input $username
+artools-chroot /mnt useradd -m -G wheel,uucp,video,audio,storage,games,input $username
 echo "$username:$password" | artools-chroot /mnt chpasswd 
 echo "root:$password" | artools-chroot /mnt chpasswd  
-artools-chroot /mnt usermod -aG wheel,audio,video,optical,storage $username #adding suer to groups
+# artools-chroot /mnt usermod -aG wheel,audio,video,optical,storage $username #adding suer to groups
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /mnt/etc/sudoers
 
@@ -181,9 +179,9 @@ sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T '$nc' -z -)/g' /mnt/etc/m
 
 
 echo "Base Networking"
-basestrap /mnt dhcpcd-runit git neofetch networkmanager
+basestrap /mnt dhcpcd-runit git neofetch networkmanager network-manager-runit
 # artools-chroot /mnt systemctl enable NetworkManager
-ln -s /mnt/etc/runit/sv/dhcpcd /mnt/run/runit/service
+ln -s /mnt/etc/runit/sv/NetworkManager /mnt/run/runit/service
 
 #This line clone my personal postinstall script
 git clone https://github.com/edwardbas-pl/arch-postinstall /mnt/home/$username/arch-postinstall
