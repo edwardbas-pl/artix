@@ -117,7 +117,7 @@ else
 	echo "Can't recognize CPU vendor"
 fi
 
-basestrap /mnt ln -s /etc/runit/sv/connmand /etc/runit/runsvdir/default	
+ln -s /mnt/etc/runit/sv/connmand /mnt/etc/runit/runsvdir/default	
 
 fstabgen -U /mnt >> /mnt/etc/fstab
 
